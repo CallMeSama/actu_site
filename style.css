@@ -1,0 +1,8 @@
+.custom-navbar {
+    height: 75px; /* Remplacez 100px par la hauteur que vous voulez */
+}
+.nav-item-custom{
+    font-size: large;
+    font-weight: 500;
+    color: rgb(109, 229, 177);
+}
