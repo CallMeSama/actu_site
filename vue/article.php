@@ -2,6 +2,7 @@
 <html>
 
 <body>
+    <?php require_once 'inc/entete.php'; ?>
     <?php foreach ($articles as $article) : ?>
         <h2><?= $article['titre'] ?></h2>
         <p><?= $article['contenu'] ?></p>

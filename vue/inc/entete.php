@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>Mon site</title>
-    <!-- Ici, vous pouvez inclure vos fichiers CSS, JavaScript, etc. -->
-</head>
-
 <body>
     <header>
         <nav>

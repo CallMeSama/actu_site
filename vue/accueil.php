@@ -25,7 +25,6 @@
             <div class="message">Aucun article trouvé</div>
         <?php endif ?>
     </div>
-    <?php require_once 'inc/menu.php'; ?>
 </body>
 
 </html>

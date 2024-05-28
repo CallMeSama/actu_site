@@ -1,7 +1,6 @@
 <?php
 require __DIR__ . '\controleur\Controleur.php';
 $controler = new Controleur();
-var_dump($_GET['action']);
 if (!isset($_GET['action'])) {
     $controler->showAccueil();
 } else {
@@ -13,7 +12,9 @@ if (!isset($_GET['action'])) {
         }
     } else if (strtolower($_GET['action']) == 'categorie') {
         if (isset($_GET['categorie'])) {
-            $controler->showArticleByCategorie($_GET['categorie']);
+            //var_dump(intval($_GET['categorie']));
+            $categorieId = intval($_GET['categorie']);
+            $controler->showArticleByCategorie($categorieId);
         } else {
             echo "erreur : categorie non défini";
         }

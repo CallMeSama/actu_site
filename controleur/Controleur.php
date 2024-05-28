@@ -35,10 +35,11 @@ class Controleur
         require_once dirname(__DIR__) . '\vue\article.php';
     }
 
+
     public function showArticleByCategorie($id)
     {
         $categorie = $this->categorieDao->getCategorieById($id);
-        $articles = $this->articleDao->getArticlesByCategorie($categorie);
-        require_once dirname(__DIR__) . '\vue\categorieByArticle.php';
+        $articles = $this->articleDao->getArticlesByCategorie($id);
+        require_once dirname(__DIR__) . '\vue\articleByCategorie.php';
     }
 }
