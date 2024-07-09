@@ -3,15 +3,17 @@ class Article
 {
     private $id;
     private $titre;
+    private $resume;
     private $contenu;
     private $dateCreation;
     private $dateModification;
     private $categorie;
 
-    public function __construct($id, $titre, $contenu, $dateCreation, $dateModification, $categorie)
+    public function __construct($id, $titre, $resume, $contenu, $dateCreation, $dateModification, $categorie)
     {
         $this->id = $id;
         $this->titre = $titre;
+        $this->resume = $resume;
         $this->contenu = $contenu;
         $this->dateCreation = $dateCreation;
         $this->dateModification = $dateModification;
@@ -26,6 +28,10 @@ class Article
     public function getTitre()
     {
         return $this->titre;
+    }
+    public function getResume()
+    {
+        return $this->resume;
     }
 
     public function getContenu()
@@ -53,6 +59,10 @@ class Article
     public function setTitre($titre)
     {
         $this->titre = $titre;
+    }
+    public function setReseume($resume)
+    {
+        $this->resume = $resume;
     }
 
     public function setContenu($contenu)

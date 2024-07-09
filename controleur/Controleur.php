@@ -16,9 +16,14 @@ class Controleur
         $this->categorieDao = new CategorieDao($connexionManager);
     }
 
-    public function showAccueil()
+    public function showAccueil($pageCourante)
     {
-        $articles = $this->articleDao->getAllArticles();
+        $numeroPage = $pageCourante;
+        $nombreArticlesParPage = 2; // Définissez le nombre d'articles que vous souhaitez par page
+        $totalArticles = $this->articleDao->getTotalArticlesCount(); // Obtenez le nombre total d'articles
+        $pages = ceil($totalArticles / $nombreArticlesParPage); // Calculez le nombre total de pages
+
+        $articles = $this->articleDao->getArticlesByPage($numeroPage, $nombreArticlesParPage);
         $categories = $this->categorieDao->getAllCategories();
         require_once dirname(__DIR__) . '\vue\accueil.php';
     }
@@ -30,7 +35,7 @@ class Controleur
 
     public function showArticle($id)
     {
-        $article = $this->articleDao->getAllArticles($id);
+        $article = $this->articleDao->getArticleById($id);
         $categories = $this->categorieDao->getAllCategories();
         require_once dirname(__DIR__) . '\vue\article.php';
     }
@@ -40,6 +45,12 @@ class Controleur
     {
         $categorie = $this->categorieDao->getCategorieById($id);
         $articles = $this->articleDao->getArticlesByCategorie($id);
+        $categories = $this->categorieDao->getAllCategories();
         require_once dirname(__DIR__) . '\vue\articleByCategorie.php';
+    }
+
+    public function showConnexion()
+    {
+        require_once dirname(__DIR__) . '\vue\connexion.php';
     }
 }
