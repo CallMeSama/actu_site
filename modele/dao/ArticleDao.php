@@ -54,11 +54,12 @@ class ArticleDao
     public function createArticle($article)
     {
         $connexion = $this->connexionManager->connect();
-        $stmt = $connexion->prepare('INSERT INTO article (titre, contenu, categorie) VALUES (:titre, :contenu, :categorie)');
+        $stmt = $connexion->prepare('INSERT INTO article (titre, contenu, categorie,description) VALUES (:titre,:contenu,:categorie,:description)');
         $stmt->execute([
             'titre' => $article['titre'],
             'contenu' => $article['contenu'],
-            'categorie' => $article['categorie']
+            'categorie' => $article['categorie'],
+            'description' => $article['description']
         ]);
         $this->connexionManager->disconnect();
     }
@@ -66,12 +67,13 @@ class ArticleDao
     public function updateArticle($article)
     {
         $connexion = $this->connexionManager->connect();
-        $stmt = $connexion->prepare('UPDATE article SET titre = :titre, contenu = :contenu, categorie = :categorie WHERE id = :id');
+        $stmt = $connexion->prepare('UPDATE article SET titre = :titre, contenu = :contenu, categorie = :categorie, description = :description WHERE id = :id');
         $stmt->execute([
             'id' => $article['id'],
             'titre' => $article['titre'],
             'contenu' => $article['contenu'],
-            'categorie' => $article['categorie']
+            'categorie' => $article['categorie'],
+            'description' => $article['description']
         ]);
         $this->connexionManager->disconnect();
     }
@@ -83,7 +85,6 @@ class ArticleDao
         $stmt->execute(['id' => $id]);
         $this->connexionManager->disconnect();
     }
-
 
 
     public function getArticlesByCategorie($categorie)

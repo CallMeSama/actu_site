@@ -1,10 +1,16 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
@@ -13,6 +19,8 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <!-- Si l'utilisateur est connecté, on affiche un dropdown avec les options de l'utilisateur
+         Sinon on affiche le bouton de connexion -->
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <?php
@@ -22,13 +30,23 @@
                 <?php foreach ($categories as $categorie) : ?>
                     <a class="nav-item nav-link" href="<?= BASE_URL ?>/index.php?action=categorie&categorie=<?= $categorie->id ?>"><?= $categorie->libelle ?></a>
                 <?php endforeach ?>
+                <a class="nav-item nav-link" href="<?= BASE_URL ?>/index.php?action=utilisateurs">Utilisateurs</a>
+                <?php if (isset($_SESSION['utilisateur_id'])) : ?>
+                    <div class="dropdown nav-item">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <?= $_SESSION['role'] ?>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item" href="#">Mon profil</a></li>
+                            <li><a class="dropdown-item" href="<?= BASE_URL ?>/index.php?action=logout">Déconnexion</a></li>
+                        </ul>
+                    </div>
+                <?php else : ?>
+                    <a href="<?= BASE_URL ?>/index.php?action=connexion" class="btn btn-success nav-item">Se connecter</a>
+                <?php endif; ?>
             </div>
-            <button class="btn btn-outline-primary ml-auto" type="submit">
-                <a style="text-decoration:none" class="text-white" href=" <?= BASE_URL ?>/index.php?action=connexion">Se connexion</a>
-            </button>
 
         </div>
-
     </nav>
 </body>
 

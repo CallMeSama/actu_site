@@ -49,8 +49,56 @@ class Controleur
         require_once dirname(__DIR__) . '\vue\articleByCategorie.php';
     }
 
-    public function showConnexion()
+    public function showCreateArticle()
     {
-        require_once dirname(__DIR__) . '\vue\connexion.php';
+        if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'editeur' && $_SESSION['role'] != 'administrateur')) {
+            header('Location: index.php?action=showConnexion&error=Unauthorized');
+            exit();
+        }
+        $categories = $this->categorieDao->getAllCategories();
+        require_once dirname(__DIR__) . '\vue\editArticle.php';
+    }
+
+    public function showEditArticle($id)
+    {
+        if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'editeur' && $_SESSION['role'] != 'administrateur')) {
+            header('Location: index.php?action=showConnexion&error=Unauthorized');
+            exit();
+        }
+        $article = $this->articleDao->getArticleById($id);
+        $categories = $this->categorieDao->getAllCategories();
+        require_once dirname(__DIR__) . '\vue\editArticle.php';
+    }
+
+    public function createArticle($article)
+    {
+        if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'editeur' && $_SESSION['role'] != 'administrateur')) {
+            header('Location: index.php?action=showConnexion&error=Unauthorized');
+            exit();
+        }
+        $this->articleDao->createArticle($article);
+        header('Location: index.php');
+    }
+
+    public function updateArticle($article)
+    {
+        if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'editeur' && $_SESSION['role'] != 'administrateur')) {
+            header('Location: index.php?action=showConnexion&error=Unauthorized');
+            exit();
+        }
+        $this->articleDao->updateArticle($article);
+        header('Location: index.php');
+        exit();
+    }
+
+    public function deleteArticle($id)
+    {
+        if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'editeur' && $_SESSION['role'] != 'administrateur')) {
+            header('Location: index.php?action=showConnexion&error=Unauthorized');
+            exit();
+        }
+        $this->articleDao->deleteArticle($id);
+        header('Location: index.php');
+        exit();
     }
 }

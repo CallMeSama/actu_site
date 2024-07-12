@@ -16,20 +16,25 @@
 
     <div class="container p-5">
         <div class="row">
-            <!-- Colonne pour le formulaire -->
+            <!-- formulaire de connexion -->
             <div class="col-md-6 mt-5">
                 <h1>Se connecter</h1>
-                <form>
+                <!-- Affichage des erreurs -->
+                <?php if (isset($_GET['error'])) : ?>
+                    <p style="color:red;"><?php echo htmlspecialchars($_GET['error']); ?></p>
+                <?php endif; ?>
+
+                <form method="post" action="index.php?action=connexion">
                     <div class="mb-4">
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text" id="addon-wrapping">@</span>
-                            <input type="text" class="form-control" placeholder="Nom d'utilisateur" aria-label="Username" aria-describedby="addon-wrapping">
+                            <input type="text" class="form-control" placeholder="Nom d'utilisateur" aria-label="Username" aria-describedby="addon-wrapping" name="username">
                         </div>
                     </div>
                     <div class="mb-4">
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text" id="addon-wrapping"><i class="bi bi-lock"></i></span>
-                            <input type="text" class="form-control" placeholder="Mot de passe" aria-label="password" aria-describedby="addon-wrapping">
+                            <input type="password" class="form-control" placeholder="Mot de passe" aria-label="password" aria-describedby="addon-wrapping" name="password">
                         </div>
                     </div>
                     <div class="mb-4 form-check">
