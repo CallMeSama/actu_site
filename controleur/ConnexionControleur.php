@@ -10,12 +10,13 @@ class ConnexionControleur
         $this->utilisateurDao = new UtilisateurDao();
         session_start();
     }
-
+    // Méthode pour afficher la page de connexion
     public function showConnexion()
     {
         require_once dirname(__DIR__) . '\vue\connexion.php';
     }
 
+    // Méthode pour gérer la connexion
     public function login($username, $password)
     {
         $user = $this->utilisateurDao->verifyUser($username, $password);

@@ -1,4 +1,6 @@
-<?php class TokenDao
+<?php
+require_once __DIR__ . '/ConnexionManager.php';
+class TokenDao
 {
     private $connexionManager;
 
@@ -25,6 +27,18 @@
         $token = $stmt->fetch(PDO::FETCH_ASSOC);
         $this->connexionManager->disconnect();
         return $token;
+    }
+
+    // Méthode pour vérifier si un jeton est valide
+    public function validateToken($token)
+    {
+        $connexion = $this->connexionManager->connect();
+        $stmt = $connexion->prepare('SELECT * FROM tokens WHERE token = :token');
+        $stmt->execute(['token' => $token]);
+        $tokenData = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->connexionManager->disconnect();
+
+        return $tokenData ? true : false;
     }
 
     public function deleteToken($id)

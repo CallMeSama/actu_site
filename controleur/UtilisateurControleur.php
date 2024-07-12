@@ -16,6 +16,7 @@ class UtilisateurControleur
         $this->tokenDao = new TokenDao();
     }
 
+    // Méthode pour afficher la liste des utilisateurs
     public function showUtilisateurs()
     {
         if (!isset($_SESSION['role']) || $_SESSION['role'] != 'administrateur') {
@@ -26,6 +27,8 @@ class UtilisateurControleur
         $utilisateurs = $this->utilisateurDao->getAllUtilisateurs();
         require_once dirname(__DIR__) . '\vue\utilisateurs.php';
     }
+
+    // Méthode pour afficher le formulaire de création d'un utilisateur
     public function showCreateUtilisateur()
     {
         if (!isset($_SESSION['role']) || $_SESSION['role'] != 'administrateur') {
@@ -36,6 +39,7 @@ class UtilisateurControleur
         require_once dirname(__DIR__) . '\vue\editUtilisateur.php';
     }
 
+    // Méthode pour afficher le formulaire de modification d'un utilisateur
     public function showEditUtilisateur($id)
     {
         if (!isset($_SESSION['role']) || $_SESSION['role'] != 'administrateur') {
@@ -46,6 +50,7 @@ class UtilisateurControleur
         require_once dirname(__DIR__) . '\vue\editUtilisateur.php';
     }
 
+    //Méthode pour creer un utilisateur
     public function createUtilisateur($utilisateur)
     {
         if (!isset($_SESSION['role']) || $_SESSION['role'] != 'administrateur') {
@@ -56,6 +61,7 @@ class UtilisateurControleur
         header('Location: index.php?action=utilisateurs');
     }
 
+    //Méthode pour modifier un utilisateur
     public function updateUtilisateur($utilisateur)
     {
         if (!isset($_SESSION['role']) || $_SESSION['role'] != 'administrateur') {
@@ -66,6 +72,7 @@ class UtilisateurControleur
         header('Location: index.php?action=utilisateurs');
     }
 
+    //Méthode pour supprimer un utilisateur
     public function deleteUtilisateur($id)
     {
         if (!isset($_SESSION['role']) || $_SESSION['role'] != 'administrateur') {
@@ -76,25 +83,17 @@ class UtilisateurControleur
         header('Location: index.php?action=utilisateurs');
     }
 
-    public function createToken($user_id)
+    // Méthode pour générer un token pour un utilisateur 
+    public function generateToken($user_id)
     {
         if (!isset($_SESSION['role']) || $_SESSION['role'] != 'administrateur') {
             header('Location: index.php?action=connexion&error=Unauthorized');
             exit();
         }
         $token = $this->tokenDao->createToken($user_id);
-        echo "Token créé: " . $token;
+        header('Location: index.php?action=utilisateurs');
     }
 
-    public function deleteToken($id)
-    {
-        if (!isset($_SESSION['role']) || $_SESSION['role'] != 'administrateur') {
-            header('Location: index.php?action=connexion&error=Unauthorized');
-            exit();
-        }
-        $this->tokenDao->deleteToken($id);
-        echo "Token supprimé.";
-    }
     // Méthode pour gérer la connexion
     public function login($username, $password)
     {

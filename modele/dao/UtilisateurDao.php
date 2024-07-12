@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/ConnexionManager.php';
 class UtilisateurDao
 {
     private $connexionManager;
@@ -10,7 +11,7 @@ class UtilisateurDao
     public function getAllUtilisateurs()
     {
         $connexion = $this->connexionManager->connect();
-        $stmt = $connexion->prepare('SELECT * FROM utilisateur');
+        $stmt = $connexion->prepare('SELECT utilisateur.id, utilisateur.username, utilisateur.role, tokens.token FROM utilisateur LEFT JOIN tokens ON utilisateur.id = tokens.utilisateur_id');
         $stmt->execute();
         $utilisateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $this->connexionManager->disconnect();
@@ -35,10 +36,11 @@ class UtilisateurDao
         return $utilisateur;
     }
 
+    // Méthode pour vérifier si un utilisateur existe dans la base de données
     public function verifyUser($username, $password)
     {
         $connexion = $this->connexionManager->connect();
-        $stmt = $connexion->prepare('SELECT * FROM utilisateur WHERE username = :username');
+        $stmt = $connexion->prepare('SELECT utilisateur.*, tokens.token FROM utilisateur LEFT JOIN tokens ON utilisateur.id = tokens.utilisateur_id WHERE utilisateur.username = :username');
         $stmt->execute(['username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($user && password_verify($password, $user['password'])) {
@@ -48,6 +50,8 @@ class UtilisateurDao
         $this->connexionManager->disconnect();
         return false;
     }
+
+    // Méthode pour créer un utilisateur dans la base de données
     public function createUtilisateur($utilisateur)
     {
         $connexion = $this->connexionManager->connect();
@@ -56,12 +60,13 @@ class UtilisateurDao
         $stmt = $connexion->prepare('INSERT INTO utilisateur (username, password, role) VALUES (:username, :password, :role)');
         $stmt->execute([
             'username' => $utilisateur['username'],
-            'password' => $hashedPassword, // Utilisez le mot de passe haché
+            'password' => $hashedPassword,
             'role' => $utilisateur['role']
         ]);
         $this->connexionManager->disconnect();
     }
 
+    // Méthode pour mettre à jour un utilisateur dans la base de données
     public function updateUtilisateur($utilisateur)
     {
         $connexion = $this->connexionManager->connect();
@@ -78,12 +83,13 @@ class UtilisateurDao
         $stmt->execute([
             'id' => $utilisateur['id'],
             'username' => $utilisateur['username'],
-            'password' => $hashedPassword, // Utilisez le mot de passe haché ou le mot de passe existant
+            'password' => $hashedPassword,
             'role' => $utilisateur['role']
         ]);
         $this->connexionManager->disconnect();
     }
 
+    // Méthode pour supprimer un utilisateur de la base de données
     public function deleteUtilisateur($id)
     {
         $connexion = $this->connexionManager->connect();

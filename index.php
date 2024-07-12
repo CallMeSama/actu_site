@@ -108,6 +108,22 @@ switch ($action) {
         } else {
             echo "erreur : id non défini";
         }
+    case 'generatetoken':
+        if (!empty($_GET['id'])) {
+            $userControleur->generateToken($_GET['id']);
+        } else {
+            echo "erreur : id non défini";
+        }
+        break;
+    case 'soap':
+        require 'soap_server.php';
+        break;
+    case 'soapclient':
+        require __DIR__ . '/soap_client.php';
+        break;
+    case 'api':
+        require __DIR__ . '/api/articles.php';
+        break;
     default:
         $controleur->showAccueil($pageCourante);
         break;

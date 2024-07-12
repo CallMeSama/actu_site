@@ -7,7 +7,7 @@ class ArticleDao
     {
         $this->connexionManager = new ConnexionManager();
     }
-
+    // Méthode pour récupérer un article par son id
     public function getArticleById($id)
     {
         $connexion = $this->connexionManager->connect();
@@ -18,6 +18,7 @@ class ArticleDao
         return $article;
     }
 
+    // Méthode pour récupérer tous les articles
     public function getAllArticles()
     {
         $connexion = $this->connexionManager->connect();
@@ -28,6 +29,8 @@ class ArticleDao
         $this->connexionManager->disconnect();
         return $articles;
     }
+
+    // Méthode pour récupérer les articles par page
     public function getArticlesByPage($page, $nbArticlesParPage)
     {
         $connexion = $this->connexionManager->connect();
@@ -40,6 +43,7 @@ class ArticleDao
         return $articles;
     }
 
+    // Méthode pour récupérer le nombre total d'articles
     public function getTotalArticlesCount()
     {
         $connexion = $this->connexionManager->connect();
@@ -51,6 +55,7 @@ class ArticleDao
         return $nbArticles; // Retournez directement le nombre d'articles
     }
 
+    // Méthode pour créer un article dans la base de données
     public function createArticle($article)
     {
         $connexion = $this->connexionManager->connect();
@@ -64,6 +69,7 @@ class ArticleDao
         $this->connexionManager->disconnect();
     }
 
+    // Méthode pour mettre à jour un article dans la base de données
     public function updateArticle($article)
     {
         $connexion = $this->connexionManager->connect();
@@ -78,6 +84,7 @@ class ArticleDao
         $this->connexionManager->disconnect();
     }
 
+    // Méthode pour supprimer un article de la base de données
     public function deleteArticle($id)
     {
         $connexion = $this->connexionManager->connect();
@@ -86,7 +93,7 @@ class ArticleDao
         $this->connexionManager->disconnect();
     }
 
-
+    // Méthode pour récupérer les articles par catégorie
     public function getArticlesByCategorie($categorie)
     {
         $connexion = $this->connexionManager->connect();

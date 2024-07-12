@@ -7,6 +7,7 @@ class ConnexionManager
     private $password = 'passer';
     private $connexion;
 
+    //methode pour se connecter à la base de données
     public function connect()
     {
         try {
@@ -18,6 +19,7 @@ class ConnexionManager
         }
     }
 
+    //methode pour se deconnecter de la base de données
     public function disconnect()
     {
         $this->connexion = null;

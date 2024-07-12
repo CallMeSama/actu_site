@@ -15,7 +15,7 @@ class Controleur
         $this->articleDao = new ArticleDao($connexionManager);
         $this->categorieDao = new CategorieDao($connexionManager);
     }
-
+    // Méthode pour afficher la page d'accueil
     public function showAccueil($pageCourante)
     {
         $numeroPage = $pageCourante;
@@ -28,11 +28,13 @@ class Controleur
         require_once dirname(__DIR__) . '\vue\accueil.php';
     }
 
+    // Méthode pour recuperer les articles pour une catégorie donnée
     public function getArticlesByCategorie($categorie)
     {
         return $this->articleDao->getArticlesByCategorie($categorie);
     }
 
+    // Méthode pour afficher un article
     public function showArticle($id)
     {
         $article = $this->articleDao->getArticleById($id);
@@ -40,7 +42,7 @@ class Controleur
         require_once dirname(__DIR__) . '\vue\article.php';
     }
 
-
+    // Méthode pour afficher les articles pour une catégorie donnée
     public function showArticleByCategorie($id)
     {
         $categorie = $this->categorieDao->getCategorieById($id);
@@ -49,6 +51,7 @@ class Controleur
         require_once dirname(__DIR__) . '\vue\articleByCategorie.php';
     }
 
+    // Méthode pour afficher le formulaire de création d'article
     public function showCreateArticle()
     {
         if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'editeur' && $_SESSION['role'] != 'administrateur')) {
@@ -59,6 +62,7 @@ class Controleur
         require_once dirname(__DIR__) . '\vue\editArticle.php';
     }
 
+    // Méthode pour afficher le formulaire de modification d'article
     public function showEditArticle($id)
     {
         if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'editeur' && $_SESSION['role'] != 'administrateur')) {
@@ -70,6 +74,7 @@ class Controleur
         require_once dirname(__DIR__) . '\vue\editArticle.php';
     }
 
+    // Méthode pour créer un article
     public function createArticle($article)
     {
         if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'editeur' && $_SESSION['role'] != 'administrateur')) {
@@ -80,6 +85,7 @@ class Controleur
         header('Location: index.php');
     }
 
+    // Méthode pour modifier un article
     public function updateArticle($article)
     {
         if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'editeur' && $_SESSION['role'] != 'administrateur')) {
@@ -91,6 +97,7 @@ class Controleur
         exit();
     }
 
+    // Méthode pour supprimer un article
     public function deleteArticle($id)
     {
         if (!isset($_SESSION['role']) || ($_SESSION['role'] != 'editeur' && $_SESSION['role'] != 'administrateur')) {

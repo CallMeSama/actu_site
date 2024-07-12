@@ -28,6 +28,7 @@ session_start();
                         <th>Nom d'utilisateur</th>
                         <th>Rôle</th>
                         <th>Actions</th>
+                        <th>Token</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,7 +40,10 @@ session_start();
                             <td>
                                 <a href="index.php?action=editutilisateur&id=<?= $utilisateur['id'] ?>" class="btn btn-sm btn-info">Modifier</a>
                                 <a href="index.php?action=deleteutilisateur&id=<?= $utilisateur['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur?');">Supprimer</a>
+                                <a href="index.php?action=generatetoken&id=<?= $utilisateur['id'] ?>" class="btn btn-sm btn-secondary">Générer Token</a>
                             </td>
+                            <td><?= htmlspecialchars($utilisateur['token'] ?? 'Non généré') ?></td> <!-- Affiche le token ou 'Non généré' si null -->
+
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
