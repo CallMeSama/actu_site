@@ -103,4 +103,25 @@ class ArticleDao
         $this->connexionManager->disconnect();
         return $articles;
     }
+
+    // Méthode pour récupérer les articles groupés par catégories
+    public function getArticlesGroupedByCategories()
+    {
+        $connexion = $this->connexionManager->connect();
+        $stmt = $connexion->prepare('SELECT a.id, a.titre, a.description, a.contenu, a.dateCreation, a.dateModification, c.libelle as categorie FROM article a JOIN categorie c ON a.categorie_id = c.id');
+        $stmt->execute();
+        $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $this->connexionManager->disconnect();
+
+        $articlesByCategories = [];
+        foreach ($articles as $article) {
+            $categorie = $article['categorie'];
+            if (!isset($articlesByCategories[$categorie])) {
+                $articlesByCategories[$categorie] = [];
+            }
+            $articlesByCategories[$categorie][] = $article;
+        }
+
+        return $articlesByCategories;
+    }
 }
