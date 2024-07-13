@@ -1,27 +1,28 @@
 <?php
+
 try {
     // Initialisation du client SOAP
-    $client = new SoapClient(null, array(
-        'location' => "http://localhost/actu_site/soap_server.php", // Assurez-vous que cette URL est correcte
-        'uri'      => "http://localhost/actu_site/soap_server.php",
-        'trace'    => 1
-    ));
+    $client = new SoapClient('http://localhost/actu_site/server.wsdl');
 
-    // Exemple d'authentification d'un utilisateur
-    $username = 'admin@gmail.com';
-    $password = 'passer';
-    $authResult = $client->__soapCall("authenticateUser", array("username" => $username, "password" => $password));
-    var_dump($authResult);
+    // Définition du token pour l'authentification
+    $token = 'YOUR_TOKEN_HERE';
 
-    if (isset($authResult['token'])) {
-        // Si $authResult est un tableau et le statut est 'success'
-        $token = $authResult['token'];
-        echo "Authentication successful. Token: " . $token . "\n";
+    // Appel de la méthode listUsers avec le token
+    $response = $client->listUsers(['token' => $token]);
+
+    // Vérification du type de réponse
+    if (is_object($response) && isset($response->users)) {
+        // Accès aux propriétés des objets utilisateurs
+        foreach ($response->users as $user) {
+            echo "ID: " . $user->id . "\n";
+            echo "Username: " . $user->username . "\n";
+            echo "Role: " . $user->role . "\n";
+            echo "Password: " . $user->password . "\n\n";
+        }
     } else {
-        // Gestion de l'échec de l'authentification
-        $message = isset($authResult['message']) ? $authResult['message'] : 'Unknown error';
-        echo "Authentication failed: " . $message . "\n";
+        echo "Aucune donnée utilisateur trouvée.";
     }
 } catch (SoapFault $e) {
-    echo "SOAP Error: " . $e->getMessage();
+    echo "SOAP Fault: " . $e->getMessage() . "\n";
+    echo "Details: " . print_r($e, true);
 }

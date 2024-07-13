@@ -1,55 +1,15 @@
 <?php
-require_once __DIR__ . '/modele/dao/UtilisateurDao.php';
-require_once __DIR__ . '/modele/dao/TokenDao.php';
 
-class UserService
-{
-    private $utilisateurDao;
-    private $tokenDao;
+// Inclure le fichier contenant la classe UserService
+require_once 'service/UserService.php';
 
-    public function __construct()
-    {
-        $this->utilisateurDao = new UtilisateurDao();
-        $this->tokenDao = new TokenDao();
-    }
+// Définir le chemin vers le fichier WSDL
+$wsdl = 'http://localhost/actu_site/server.wsdl';
+// Créer un serveur SOAP
+$server = new SoapServer($wsdl);
 
-    public function listUsers($token)
-    {
-        $this->authenticate($token);
-        return $this->utilisateurDao->getAllUtilisateurs();
-    }
+// Ajouter la classe UserService au serveur
+$server->setClass('UserService');
 
-    public function addUser($token, $username, $password, $role)
-    {
-        $this->authenticate($token);
-        return $this->utilisateurDao->createUtilisateur($username, $password, $role);
-    }
-
-    public function deleteUser($token, $id)
-    {
-        $this->authenticate($token);
-        return $this->utilisateurDao->deleteUtilisateur($id);
-    }
-
-    public function updateUser($token, $id, $username, $password, $role)
-    {
-        $this->authenticate($token);
-        return $this->utilisateurDao->updateUtilisateur($id, $username, $password, $role);
-    }
-
-    public function authenticateUser($username, $password)
-    {
-        return $this->utilisateurDao->verifyUser($username, $password);
-    }
-
-    private function authenticate($token)
-    {
-        if (!$this->tokenDao->validateToken($token)) {
-            throw new Exception('Token invalide ou expiré');
-        }
-    }
-}
-
-$server = new SoapServer(null, array('uri' => "http://localhost/actu_site/soap_server.php"));
-$server->setClass('UserService');   
+// Démarrer le serveur
 $server->handle();

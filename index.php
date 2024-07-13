@@ -1,18 +1,20 @@
 <?php
-/* error_reporting(E_ALL);
-ini_set('display_errors', 1); */
 require __DIR__ . '/controleur/Controleur.php';
 require __DIR__ . '/controleur/UtilisateurControleur.php';
 require __DIR__ . '/controleur/ConnexionControleur.php';
 
+//Initialisation des controleurs
 $controleur = new Controleur();
 $conControleur = new ConnexionControleur();
 $userControleur = new UtilisateurControleur();
+
+// Récupérer le numero de la page courante pour gérer la pagination
 $pageCourante = isset($_GET['page']) && !empty($_GET['page']) ? (int) strip_tags($_GET['page']) : 1;
 
 $action = isset($_GET['action']) ? strtolower($_GET['action']) : null;
-
 switch ($action) {
+
+        //Afficher un article
     case 'article':
         if (!empty($_GET['id'])) {
             $controleur->showArticle($_GET['id']);
@@ -20,6 +22,8 @@ switch ($action) {
             echo "erreur : id non défini";
         }
         break;
+
+        //Afficher les articles par catégorie
     case 'categorie':
         if (!empty($_GET['categorie'])) {
             $categorieId = intval($_GET['categorie']);
@@ -28,6 +32,8 @@ switch ($action) {
             echo "erreur : categorie non défini";
         }
         break;
+
+        //Afficher la page de connexion
     case 'connexion':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'];
@@ -37,6 +43,8 @@ switch ($action) {
             $conControleur->showConnexion();
         }
         break;
+
+        //
     case 'home':
         $controleur->showAccueil($pageCourante);
         break;
@@ -115,14 +123,11 @@ switch ($action) {
             echo "erreur : id non défini";
         }
         break;
-    case 'soap':
-        require 'soap_server.php';
-        break;
     case 'soapclient':
-        require __DIR__ . '/soap_client.php';
+        require_once __DIR__ . '\soap_client.php';
         break;
     case 'api':
-        require __DIR__ . '/api/articles.php';
+        require __DIR__ . '\api\articles.php';
         break;
     default:
         $controleur->showAccueil($pageCourante);

@@ -8,6 +8,8 @@ class UtilisateurDao
     {
         $this->connexionManager = new ConnexionManager();
     }
+
+    // Méthode pour récupérer tous les utilisateurs de la base de données
     public function getAllUtilisateurs()
     {
         $connexion = $this->connexionManager->connect();
@@ -17,6 +19,8 @@ class UtilisateurDao
         $this->connexionManager->disconnect();
         return $utilisateurs;
     }
+
+    // Méthode pour récupérer un utilisateur par son identifiant
     public function getUtilisateurById($id)
     {
         $connexion = $this->connexionManager->connect();
@@ -26,6 +30,8 @@ class UtilisateurDao
         $this->connexionManager->disconnect();
         return $utilisateur;
     }
+
+    // Méthode pour récupérer un utilisateur par son nom d'utilisateur
     public function getUtilisateurByUsername($username)
     {
         $connexion = $this->connexionManager->connect();

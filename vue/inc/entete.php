@@ -30,14 +30,15 @@ session_start();
                 <?php foreach ($categories as $categorie) : ?>
                     <a class="nav-item nav-link" href="<?= BASE_URL ?>/index.php?action=categorie&categorie=<?= $categorie->id ?>"><?= $categorie->libelle ?></a>
                 <?php endforeach ?>
-                <a class="nav-item nav-link" href="<?= BASE_URL ?>/index.php?action=utilisateurs">Utilisateurs</a>
+                <?php if (isset($_SESSION['utilisateur_id']) && $_SESSION['role'] == 'administrateur') : ?>
+                    <a class="nav-item nav-link" href="<?= BASE_URL ?>/index.php?action=utilisateurs">Utilisateurs</a>
+                <?php endif; ?>
                 <?php if (isset($_SESSION['utilisateur_id'])) : ?>
                     <div class="dropdown nav-item">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?= $_SESSION['role'] ?>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="#">Mon profil</a></li>
                             <li><a class="dropdown-item" href="<?= BASE_URL ?>/index.php?action=logout">Déconnexion</a></li>
                         </ul>
                     </div>

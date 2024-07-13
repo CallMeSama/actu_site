@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 
 require_once dirname(__DIR__) . '\modele\dao\ArticleDao.php';
-require_once dirname(__DIR__) . '\ArticleService.php';
+require_once dirname(__DIR__) . '\service\ArticleService.php';
 
 // Traitement des requêtes
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {

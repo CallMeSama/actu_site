@@ -9,6 +9,7 @@ class TokenDao
         $this->connexionManager = new ConnexionManager();
     }
 
+    // Méthode pour générer un jeton
     public function createToken($utilisateur_id)
     {
         $token = bin2hex(random_bytes(16));
@@ -19,6 +20,7 @@ class TokenDao
         return $token;
     }
 
+    // Méthode pour récupérer un jeton pour un utilisateur
     public function getTokenByUserId($utilisateur_id)
     {
         $connexion = $this->connexionManager->connect();
@@ -41,6 +43,7 @@ class TokenDao
         return $tokenData ? true : false;
     }
 
+    // Méthode pour supprimer un jeton
     public function deleteToken($id)
     {
         $connexion = $this->connexionManager->connect();
